@@ -8,7 +8,9 @@ class SerieProvider with ChangeNotifier {
   List<Serie> _series = [];
   bool _isLoading = false;
   String? _error;
-
+  List<Serie> get series => _series;
+  bool get isLoading => _isLoading;
+  String? get error => _error;
   Future<void> fetchSeries() async {
     _isLoading = true;
     _error = null;
