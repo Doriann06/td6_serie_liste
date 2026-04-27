@@ -1,0 +1,27 @@
+import 'package:flutter/material.dart';
+import '../models/serie.dart';
+import '../services/preferences_service.dart';
+class FavorisProvider with ChangeNotifier {
+ // ⚠ Service instancié en dur — même problème qu'à l'étape 3.
+ // À corriger étape 8.
+  final PreferencesService _prefsService = PreferencesService();
+  List<Serie> _favoris = [];
+  List<Serie> get favoris => _favoris;
+  FavorisProvider() {
+    _chargerFavoris();
+  }
+  Future<void> _chargerFavoris() async {
+    _favoris = await _prefsService.getFavoris();
+    notifyListeners();
+  }
+  Future<void> toggleFavori(Serie serie) async {
+    if (_favoris.any((s) => s.id == serie.id)) {
+      _favoris.removeWhere((s) => s.id == serie.id);
+    } else {
+      _favoris.add(serie);
+    }
+    await _prefsService.saveFavoris(_favoris);
+    notifyListeners();
+  }
+  bool estFavori(int serieId) => _favoris.any((s) => s.id == serieId);
+  }

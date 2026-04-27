@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:serie_liste/providers/favoris_provider.dart';
 import '../providers/serie_provider.dart';
 import '../models/serie.dart';
 
@@ -36,7 +37,20 @@ class SerieDetailScreen extends StatelessWidget {
                   Text('⭐ ${serie.note!.toStringAsFixed(1)}'),
                 const SizedBox(height: 8),
                 Text(serie.synopsis),
-                // Boutons favoris (étape 5) et watchlist (étape 8) à ajouter ici
+                // Boutons favoris (étape 5)
+                const SizedBox(height: 16),
+                Consumer<FavorisProvider>(
+                  builder: (context, favorisProvider, _) {
+                    final estFavori = favorisProvider.estFavori(serie.id);
+                    return ElevatedButton.icon(
+                      onPressed: () => favorisProvider.toggleFavori(serie),
+                      icon: Icon(estFavori ? Icons.favorite : Icons.favorite_border),
+                      label: Text(estFavori ? 'Retirer des favoris' : 'Ajouter aux favoris'),
+                    );
+                  }
+                ),
+                //watchlist (étape 8) à ajouter ici
+
 
               ],
             ),
